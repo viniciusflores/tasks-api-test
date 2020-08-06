@@ -50,4 +50,25 @@ public class APItest {
 			.body("message",CoreMatchers.is("Due date must not be in past"))
 		;
 	}
+	
+	@Test
+	public void shouldBeARemoveTodoData() {
+		Integer id = given()
+			.body("{\"task\":\"teste API\",\"dueDate\":\"2020-12-30\"}")
+			.contentType(ContentType.JSON)
+		.when()
+			.post("/todo")
+		.then()
+			.statusCode(201)
+			.extract().path("id")
+		;
+		
+		given()
+			.contentType(ContentType.JSON)
+		.when()
+			.delete("/todo/"+id)
+		.then()
+			.statusCode(204)
+		;
+	}
 }
